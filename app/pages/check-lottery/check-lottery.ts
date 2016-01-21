@@ -1,9 +1,12 @@
 import {Page} from 'ionic-framework/ionic';
 import {Component, Directive} from 'angular2/core';
 
-import {LotteryListService, LottaryItem} from '../../scripts/services/lottery-list.svc';
-import {LotteryInfo}  from '../../scripts/lottery-info';
+import {LotteryListService, LottaryItem} from '../../scripts/services/lottery-list.svc'
+import {LotteryInfo}  from '../../scripts/lottery-info'
 import {Lottery} from '../../scripts/models/lottery.mdl'
+import {GoviSetha} from '../../scripts/models/nlb-govi-setha'
+import {MahajanaSampatha} from '../../scripts/models/nlb-maha-sam'
+import {Http, Headers} from 'angular2/http'
  
 
 
@@ -13,7 +16,7 @@ import {Lottery} from '../../scripts/models/lottery.mdl'
         <div class="row">
         <label class="frm-lbl"> Enter lottery type </label>
         <div class="frm-opt-wrp">
-        <select (change)="onSelect($event.target.value)" class="frm-opt">
+        <select (click)="onSelect($event.target.value)" class="frm-opt">
            <option  *ngFor="#loterry of loterryList" [value]="loterry.id">{{loterry.name}}</option>
         </select>
         </div>
@@ -46,8 +49,6 @@ import {Lottery} from '../../scripts/models/lottery.mdl'
          
         </div>
         
- 
-    
   `,
     providers: [LotteryListService]
 
@@ -65,7 +66,8 @@ export class LotteryComp {
   public title = 'Lottery List';
   public loterryList: Array<LottaryItem>;
   public lotteryInfo: LotteryInfo;
-  constructor(private _lotteryList:LotteryListService){};
+  public lotteryObject : Lottery;
+  constructor(private _lotteryList:LotteryListService, private http:Http ){};
   
    ngOnInit() {
       this._lotteryList.getList().then(list => this.loterryList = list);
@@ -81,25 +83,55 @@ export class LotteryComp {
     
   }
   
-  addToList(){
-     var lotteryObject : Lottery;
-     lotteryObject = new Lottery();
-     lotteryObject.drawNumber =  this.drawNumber;
-     lotteryObject.id = this.lotteryInfo.id;
-     lotteryObject.name = this.lotteryInfo.name;
-     lotteryObject.luckyNums = this.inputNumbers;
-     lotteryObject.letter = this.letter;
-     lotteryObject.zodiacsign = this.zodiacsign;
-     lotteryObject.type = this.lotteryInfo.type;
-     lotteryObject.status = 0;
-     lotteryObject.jackpot = localStorage.length;
-     alert( lotteryObject.id );
-      
-    localStorage.setItem( localStorage.length.toString() , JSON.stringify(lotteryObject) );
+    createLotteryObject() {
+     this.lotteryObject = new Lottery();
+     this.lotteryObject.drawNumber =  this.drawNumber;
+     this.lotteryObject.id = this.lotteryInfo.id;
+     this.lotteryObject.name = this.lotteryInfo.name;
+     this.lotteryObject.luckyNums = this.inputNumbers;
+     this.lotteryObject.letter = this.letter;
+     this.lotteryObject.zodiacsign = this.zodiacsign;
+     this.lotteryObject.type = this.lotteryInfo.type;
+     this.lotteryObject.status = 0;
+     this.lotteryObject.jackpot = localStorage.length;
       
   }
   
+  addToList(){
+     
+     this.createLotteryObject();
+     alert( this.lotteryObject.id );
+      
+    localStorage.setItem( localStorage.length.toString() , JSON.stringify(this.lotteryObject) );
+      
+  }
+  
+
+  
   checkNow() {
+      
+      var result : JSON;
+     this.http.get( 'http://192.168.0.102:8400/restexample/helloWorld/lottery' ).subscribe(
+         data => result = data.json(),
+         err => console.log( err.text() )
+     )
+      
+      console.log(result);
+      
+    this.createLotteryObject();
+      
+      if(this.lotteryInfo.id == "govisetha") {
+          var calc : GoviSetha = new GoviSetha(this.lotteryObject); 
+          console.log( this.lotteryObject );
+         // calc.calculateWinnings(this.lotteryObject);
+          console.log( calc.calculateWinnings(this.lotteryObject) );
+      }
+      if(this.lotteryInfo.id == "mahajanasampatha") {
+          var calcx : MahajanaSampatha = new MahajanaSampatha(this.lotteryObject); 
+          console.log( this.lotteryObject );
+         // calc.calculateWinnings(this.lotteryObject);
+          console.log( calcx.calculateWinnings( this.lotteryObject ) );
+      }
       
   }
 }
