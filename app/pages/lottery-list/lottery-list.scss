@@ -1,3 +1,66 @@
-.lottery-list {
+.nt-item {
+    width: 100%;
+    border-bottom: 1px solid #adadad;
+    float:left;
+}
 
+.nt-item .row {
+    display: flex;
+    padding-top:15px;
+    padding-bottom:15px;
+    margin-top:0;
+}
+
+.nt-item-info {
+    width: 75%;
+}
+
+.nt-item-actions {
+    width: 25%;
+    float:right;
+    text-align:right;
+    
+    img {
+        width:30px;
+        height:auto;
+    }
+}
+
+.nti-txt-prim {
+    font-size: 16px;
+    margin-bottom: 5px;
+    display: block;
+    width: 100%;
+    color: #141414;
+}
+
+.nti-txt-scnd {
+    font-size: 14px;
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
+    color: #141414;
+    display: inline;
+}
+
+.nti-txt-teri {
+    font-size: 14px;
+    color: #7e7e7e;
+    display: block;
+}
+
+.ntia-del {
+    float:left;
+    margin-top: 10px;
+    padding: 0;
+    background: none;
+    border:0;
+}
+
+.ntia-edit {
+    float:right;
+    margin-top: 10px;
+    padding: 0;
+    background: none;
+    border:0;
 }

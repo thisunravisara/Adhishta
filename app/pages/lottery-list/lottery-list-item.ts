@@ -9,21 +9,21 @@ import {LotteryListComp} from './lottery-list'
 @Component({
   selector: 'lottery-list-item',
   template: `
-  
-    <div> {{lottery.name}} </div>
-    
-    <div> <span *ngFor="#num of lottery.luckyNums" > {{num}} </span> </div>
-    
-    <div *ngIf="lottery.letter"> {{lottery.letter}}</div>
-    
-    <div *ngIf="lottery.zodiacsign"> {{lottery.zodiacsign}}</div>
-     <div> {{lottery.drawNumber}}</div>
-     
-      <div> {{lottery.jackpot}}</div>
+      <div padding class="row">
+      <div class="nt-item-info">
+        <span class="nti-txt-prim"> {{lottery.name}} </span>
+        <span *ngFor="#num of lottery.luckyNums" class="nti-txt-scnd"> {{num}} </span>
+        <span *ngIf="lottery.letter"> - {{lottery.letter}}</span> 
+        <span *ngIf="lottery.zodiacsign"> - {{lottery.zodiacsign}}</span>
+        <span class="nti-txt-teri"> {{lottery.drawNumber}}</span>
+    </div>
  
- 
-     <button (click)="editLottery()" >Edit</button>
-       <button (click)="removeLottery()" >Remove</button>
+    <div class="nt-item-actions">
+       <button (click)="editLottery()" class="ntia-edit"><img src="https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/edit.png" /></button>
+   
+      <button (click)="removeLottery()" class="ntia-del"><img src="http://megaicons.net/static/img/icons_sizes/8/178/512/editing-delete-icon.png" /></button>
+    </div>
+    </div>
  
    `,
    inputs : ['lottery']
@@ -35,8 +35,10 @@ export class LotteryListItemComp{
     }
     
     removeLottery(){  
-        alert('removed');
+        
         localStorage.removeItem(this.lottery.jackpot.toString());
+        alert('removed' + this.lottery.jackpot );
+        
     }
     
       ngOnInit() {

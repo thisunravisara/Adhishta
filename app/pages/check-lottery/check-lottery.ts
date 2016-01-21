@@ -30,8 +30,10 @@ import {Lottery} from '../../scripts/models/lottery.mdl'
          
          
         <div *ngIf="lotteryInfo.hasZodiac" class="row">
-        <label class="frm-lbl"> Select Zodiac Sign </label>
-        <input  [(ngModel)]="zodiacsign" placeholder="Zodiacsign"/>
+              <label class="frm-lbl"> Select Zodiac Sign </label>
+     
+               
+             <input  [(ngModel)]="zodiacsign" placeholder="Zodiacsign"/>
         </div>
 
          <div class="row">
@@ -90,6 +92,7 @@ export class LotteryComp {
      lotteryObject.zodiacsign = this.zodiacsign;
      lotteryObject.type = this.lotteryInfo.type;
      lotteryObject.status = 0;
+     lotteryObject.jackpot = localStorage.length;
      alert( lotteryObject.id );
       
     localStorage.setItem( localStorage.length.toString() , JSON.stringify(lotteryObject) );

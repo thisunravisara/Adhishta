@@ -14,7 +14,7 @@ import {LotteryListItemComp} from './lottery-list-item'
 @View ( {
     directives: [LotteryListItemComp],
      template: `
-       <lottery-list-item  *ngFor="#lot of lotteryList"  [lottery]="lot" > </lottery-list-item>
+       <lottery-list-item class="nt-item"  *ngFor="#lot of lotteryList"  [lottery]="lot" > </lottery-list-item>
        
   `
 })
@@ -31,7 +31,7 @@ export class LotteryListComp{
              var retrievedObject = JSON.parse( localStorage.getItem(localStorage.key(i)) );
              var lotter : Lottery = new Lottery();
              if( retrievedObject['id'] != "" ){
-                lotter.jackpot = i;
+                lotter.jackpot =retrievedObject['jackpot'];
                 lotter.name = retrievedObject['name'] ;
                 lotter.drawNumber = retrievedObject['drawNumber'] ;
                 lotter.id = retrievedObject['id'] ;
